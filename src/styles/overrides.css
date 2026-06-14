@@ -1,0 +1,324 @@
+/* Phase A/C/D style fixes — loaded after component CSS */
+
+html {
+  overflow-x: clip;
+}
+
+body {
+  overflow-x: clip;
+}
+
+html.is-scroll-locked,
+body.is-scroll-locked {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.main {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+/* Phase A: z-index scale (tokens) */
+.sidebar {
+  z-index: var(--z-sticky);
+}
+
+.site-header {
+  z-index: var(--z-sticky);
+}
+
+.modal {
+  z-index: var(--z-modal);
+}
+
+.nav-drawer {
+  z-index: var(--z-drawer);
+}
+
+.tooltip.tooltip--in-circle.is-active {
+  z-index: var(--z-tooltip);
+}
+
+/* Phase A: viewport units without scrollbar overflow */
+.team-section {
+  --team-head-offset: clamp(92px, 10vh, 128px);
+  --team-safe-bottom: 24px;
+}
+
+.team-wrapper {
+  --team-circle-safe: min(
+    calc(100dvw - var(--team-tooltip-w) - var(--team-tooltip-gap) - 80px),
+    calc(
+      100svh - var(--header-h) - var(--team-head-offset) -
+        var(--team-safe-bottom)
+    )
+  );
+}
+
+.modal--team-member .tmm-panel,
+.modal--team-member.is-open .tmm-panel {
+  width: min(420px, calc(100dvw - 24px));
+}
+
+/* Phase A: about quote without !important */
+.about-quote {
+  margin-bottom: 0.8rem;
+}
+
+/* Phase A: touch targets */
+.btn {
+  min-height: 48px;
+}
+
+.eis-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.35rem 0.5rem;
+}
+
+/* Phase C1: laptop section height (team uses its own stage layout) */
+@media (min-width: 881px) {
+  .section:not(.team-section):not(.about) {
+    min-height: min(calc(100svh - var(--header-h)), 900px);
+  }
+
+  .section.about {
+    min-height: auto;
+  }
+
+  .hero {
+    min-height: min(calc(100svh - var(--header-h)), 920px);
+  }
+}
+
+/* Phase C2: tablet cases */
+@media (max-width: 768px) and (min-width: 641px) {
+  .cases-row--data span:nth-child(2) strong {
+    font-size: 0.92rem;
+    line-height: 1.25;
+  }
+
+  .cases-loc {
+    font-size: 0.72rem;
+  }
+}
+
+/* Phase C: hero mid breakpoints */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-title {
+    font-size: clamp(2rem, 7.5vw, 4.25rem);
+  }
+
+  .hero-bg-fz {
+    opacity: 0.4;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 879px) {
+  .hero-bg-fz {
+    opacity: 0.38;
+  }
+}
+
+/* Phase C4: xs hero */
+@media (max-width: 389px) {
+  .hero-title {
+    font-size: clamp(1.25rem, 8vw, 1.75rem);
+  }
+
+  .hero-lead {
+    font-size: 0.9rem;
+  }
+
+  .cases-row--data {
+    padding: 1rem 0.85rem;
+  }
+}
+
+/* Phase D: nav drawer backdrop */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  top: var(--header-h);
+  z-index: calc(var(--z-drawer) - 1);
+  background: rgba(34, 36, 38, 0.45);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  animation: navBackdropIn 0.2s ease;
+}
+
+@keyframes navBackdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.site-nav a.is-active {
+  color: var(--text-on-dark);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip-link:focus {
+  position: fixed;
+  left: max(12px, env(safe-area-inset-left));
+  top: 0.5rem;
+  z-index: calc(var(--z-sticky) + 1);
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1rem;
+  background: var(--dark);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+.footer-contact--link,
+.footer-cta a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-contact--link:hover,
+.footer-cta a:hover {
+  color: var(--surface-light);
+  opacity: 1;
+}
+
+.cases-row--data {
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 640px) {
+  .cases-row--data {
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-strip {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+}
+
+.modal-gallery-hint {
+  display: inline;
+}
+
+@media (hover: none) {
+  .modal-gallery-hint {
+    display: inline;
+  }
+}
+
+@media (hover: hover) and (min-width: 641px) {
+  .modal-gallery-hint {
+    display: inline;
+  }
+}
+
+.cases-row--data span:nth-child(2) strong {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (min-width: 1025px) {
+  .cases-row--data span:nth-child(2) strong {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+}
+
+.modal-viewport.is-loading {
+  cursor: wait;
+}
+
+.modal-viewport[aria-busy="true"] .modal-gallery-img {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Ultrawide (2560×1080 and similar) */
+@media (min-width: 1920px) {
+  :root {
+    --container-wide: min(1280px, 92vw);
+    --container-content: min(1040px, 78vw);
+  }
+
+  .about-panel {
+    max-width: var(--container-wide);
+  }
+
+  .circle-container {
+    width: min(
+      clamp(720px, 42vw, 980px),
+      max(400px, var(--team-circle-safe))
+    );
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 4.5vw, 5.5rem);
+  }
+}
+
+@media (min-width: 2200px) {
+  :root {
+    --container-wide: min(1400px, 88vw);
+  }
+}
+
+/* Touch: убрать серый квадрат tap-highlight и flash focus при открытии модалок */
+@media (hover: none), (pointer: coarse) {
+  .cases-row--data,
+  .team-circle-hits path,
+  .team-quarter__svg,
+  .team-circle-center,
+  .modal-close,
+  .tmm-close,
+  .tmm-nav-btn,
+  .modal-nav,
+  .btn {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cases-row--data:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  .team-circle-hits path:focus {
+    outline: none;
+  }
+
+  .team-circle-hits path:focus:not(:focus-visible) {
+    stroke: none;
+  }
+
+  .modal-backdrop {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .modal-viewport.is-loading .modal-gallery-img {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

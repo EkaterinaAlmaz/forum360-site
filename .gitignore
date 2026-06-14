@@ -1,0 +1,11 @@
+node_modules/
+dist/
+public/assets/
+storage/
+test-results/
+*.zip
+Thumbs.db
+.DS_Store
+team-circle-preview.png
+team-circle-geometric-preview.png
+assets/team/*.jpg

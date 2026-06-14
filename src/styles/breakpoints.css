@@ -1,0 +1,14 @@
+/* Breakpoint contract (JS: useMediaQuery max-width 1024px for team touch mode) */
+:root {
+  --bp-mobile-s: 320px;
+  --bp-tablet: 768px;
+  --bp-mobile-max: 639px;
+  --bp-tablet-max: 1023px;
+  --bp-laptop-max: 1279px;
+  --bp-team-desktop-min: 1025px;
+  --bp-team-stack-max: 1240px;
+  --bp-compact-min: 1000px;
+  --bp-compact-max-h: 700px;
+  --bp-compact-soft-h: 760px;
+  --logo-aspect: 911 / 160.81;
+}

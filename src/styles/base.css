@@ -1,0 +1,92 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 8px);
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font-sans);
+    background:
+        radial-gradient(
+            circle at 18% 16%,
+            rgba(234, 234, 234, 0.055),
+            rgba(234, 234, 234, 0) min(34vw, 560px)
+        ),
+        radial-gradient(
+            circle at 82% 8%,
+            rgba(234, 234, 234, 0.035),
+            rgba(234, 234, 234, 0) min(32vw, 520px)
+        ),
+        var(--page-bg);
+    color: var(--text-on-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        radial-gradient(
+            circle at 16% 22%,
+            rgba(234, 234, 234, 0.06),
+            rgba(234, 234, 234, 0) 30rem
+        ),
+        radial-gradient(
+            circle at 78% 18%,
+            rgba(234, 234, 234, 0.04),
+            rgba(234, 234, 234, 0) 28rem
+        ),
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:
+        auto,
+        auto,
+        48px 48px,
+        48px 48px;
+    opacity: 0.22;
+    -webkit-mask-image: radial-gradient(
+        ellipse at 50% 28%,
+        rgba(34, 36, 38, 0.85),
+        rgba(34, 36, 38, 0.22) 68%
+    );
+    mask-image: radial-gradient(
+        ellipse at 50% 28%,
+        rgba(34, 36, 38, 0.85),
+        rgba(34, 36, 38, 0.22) 68%
+    );
+    z-index: -1;
+    pointer-events: none;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(34, 36, 38, 0) 48%,
+            rgba(34, 36, 38, 0.46) 100%
+        );
+    z-index: -1;
+    pointer-events: none;
+}
+
+.mono {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+}
+
+.accent {
+    color: var(--text-on-dark);
+}

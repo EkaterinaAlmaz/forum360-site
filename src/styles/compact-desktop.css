@@ -1,0 +1,341 @@
+/* Compact desktop: wide viewport + low height (e.g. 1920×1080 @ 175% → ~1100×620 CSS px) */
+
+@media (min-width: 1000px) and (max-height: 760px) {
+    :root {
+        --compact-section-pad-y: clamp(20px, 3vh, 32px);
+    }
+
+    .section {
+        padding-top: var(--compact-section-pad-y);
+        padding-bottom: var(--compact-section-pad-y);
+    }
+
+    .section.about {
+        padding-top: var(--compact-section-pad-y);
+        padding-bottom: var(--compact-section-pad-y);
+    }
+
+    .team-section {
+        padding-top: clamp(12px, 1.8vh, 24px);
+        padding-bottom: clamp(12px, 2vh, 24px);
+    }
+
+    .team-wrapper {
+        padding-top: 0.75rem;
+        --team-tooltip-w: clamp(205px, 21vw, 285px);
+        --team-tooltip-gap: clamp(6px, 0.9vw, 12px);
+    }
+
+    .circle-container {
+        width: min(
+            clamp(520px, min(56vw, 52svh), 800px),
+            var(--team-circle-safe)
+        );
+    }
+
+    .tooltip.tooltip--in-circle {
+        max-height: min(64vh, 440px);
+        padding: 0.85rem 0.95rem;
+        box-shadow: 8px 8px 0 rgba(34, 36, 38, 0.1);
+    }
+
+    .tooltip.tooltip--in-circle.tooltip--pos-ekaterina,
+    .tooltip.tooltip--in-circle.tooltip--pos-marina {
+        top: 7%;
+    }
+
+    .tooltip.tooltip--in-circle.tooltip--pos-lyubov,
+    .tooltip.tooltip--in-circle.tooltip--pos-anastasia {
+        bottom: 7%;
+    }
+
+    .tooltip-name {
+        font-size: clamp(0.94rem, 1.7vw, 1.04rem);
+        line-height: 1.12;
+        margin-bottom: 0.16rem;
+    }
+
+    .tooltip-role {
+        font-size: 0.56rem;
+        line-height: 1.35;
+        padding-bottom: 0.45rem;
+        margin-bottom: 0.52rem;
+    }
+
+    .tooltip-body {
+        max-height: min(28vh, 210px);
+        padding-right: 0.2rem;
+        margin-bottom: 0.55rem;
+        font-size: 0.74rem;
+        line-height: 1.38;
+    }
+
+    .tooltip-body p {
+        margin-bottom: 0.48rem;
+    }
+
+    .tooltip-stats {
+        gap: 0.35rem;
+        padding-top: 0.5rem;
+    }
+
+    .stat-val {
+        font-size: 0.84rem;
+        line-height: 1.1;
+    }
+
+    .stat-lab {
+        font-size: 0.43rem;
+        letter-spacing: 0.03em;
+        line-height: 1.12;
+    }
+
+    .tooltip-more-wrap {
+        margin-top: 0.45rem;
+        padding-top: 0.45rem;
+    }
+
+    .tooltip-more-btn {
+        min-height: 34px;
+        font-size: 0.52rem;
+    }
+}
+
+@media (min-width: 1025px) and (max-height: 700px) {
+    .team-section .team-wrapper {
+        min-height: 0;
+    }
+}
+
+@media (min-width: 1000px) and (max-height: 700px) {
+    :root {
+        --compact-section-pad-y: clamp(16px, 2.5vh, 28px);
+        --compact-section-head-mb: 1.25rem;
+        --compact-team-head-offset: clamp(72px, 10vh, 96px);
+    }
+
+    #about {
+        scroll-margin-top: calc(var(--header-h) + 8px);
+    }
+
+    #team-title {
+        scroll-margin-top: calc(var(--header-h) + 20px);
+    }
+
+    #teamCircle {
+        scroll-margin-top: calc(var(--header-h) + 16px);
+    }
+
+    .hero {
+        min-height: 100svh;
+        padding-top: calc(var(--header-h) + clamp(20px, 3vh, 36px));
+        padding-bottom: clamp(20px, 3vh, 32px);
+        overflow: hidden;
+    }
+
+    .hero__inner {
+        min-height: calc(100svh - var(--header-h) - clamp(40px, 8vh, 72px));
+    }
+
+    .hero__brand {
+        width: min(100%, clamp(440px, 42vw, 680px));
+    }
+
+    .hero__tagline {
+        font-size: clamp(1.45rem, 2.25vw, 2rem);
+    }
+
+    .hero-process {
+        width: min(100%, 660px);
+    }
+
+    .section {
+        padding-top: var(--compact-section-pad-y);
+        padding-bottom: var(--compact-section-pad-y);
+    }
+
+    .section:not(.team-section):not(.about) {
+        min-height: auto;
+    }
+
+    .section.about {
+        min-height: min(calc(100svh - var(--header-h)), 560px);
+        padding-top: clamp(18px, 2.5vh, 28px);
+        padding-bottom: clamp(18px, 2.5vh, 28px);
+    }
+
+    .section-head {
+        margin-bottom: var(--compact-section-head-mb);
+    }
+
+    .team-section {
+        --team-head-offset: var(--compact-team-head-offset);
+        --team-safe-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100svh - var(--header-h));
+        padding-top: clamp(12px, 1.8vh, 20px);
+        padding-bottom: clamp(12px, 1.8vh, 20px);
+        overflow: visible;
+    }
+
+    .team-section .section-head {
+        flex-shrink: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .team-section .section-title {
+        font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+    }
+
+    .team-section .team-tagline {
+        margin-top: 0.35rem;
+        font-size: 0.88rem;
+        line-height: 1.45;
+    }
+
+    .team-section .team-wrapper {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        --team-tooltip-w: clamp(200px, 19vw, 280px);
+        --team-tooltip-gap: clamp(6px, 0.8vw, 12px);
+    }
+
+    .circle-container {
+        width: min(
+            clamp(420px, min(58vw, 56svh), 680px),
+            var(--team-circle-safe)
+        );
+    }
+
+    /* Двухколоночный about как на desktop (не stack из max-width: 1180px) */
+    .about-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+        align-items: stretch;
+        max-width: min(1120px, 100%);
+        min-height: clamp(340px, 54svh, 480px);
+    }
+
+    .about-panel__content {
+        padding: clamp(16px, 2.2vw, 26px) clamp(16px, 2.4vw, 26px);
+    }
+
+    .about-panel__visual {
+        border-left: 1px solid var(--line-on-dark);
+        border-top: none;
+        width: auto;
+        max-width: none;
+        margin-inline: 0;
+        aspect-ratio: auto;
+        min-height: 0;
+        max-height: none;
+    }
+
+    .section.about .section-head {
+        margin-bottom: 0.65rem;
+    }
+
+    .about-panel.is-visible .about-geo__layer--ring {
+        animation:
+            about-geo-fade-in 700ms ease 140ms both,
+            about-geo-breathe-compact 7s ease-in-out 820ms infinite;
+    }
+
+    .about-panel.is-visible .about-geo__layer--core {
+        animation:
+            about-geo-fade-in 500ms ease 620ms both,
+            about-geo-pulse-compact 3.2s ease-in-out 1.12s infinite;
+    }
+
+    .tooltip.tooltip--in-circle {
+        max-height: min(68vh, 390px);
+        padding: 0.72rem 0.82rem;
+    }
+
+    .tooltip-body {
+        max-height: min(25vh, 160px);
+        font-size: 0.7rem;
+        line-height: 1.34;
+    }
+
+    .tooltip-name {
+        font-size: 0.9rem;
+    }
+
+    .tooltip-role {
+        font-size: 0.52rem;
+        padding-bottom: 0.38rem;
+        margin-bottom: 0.44rem;
+    }
+
+    .tooltip-stats {
+        padding-top: 0.42rem;
+    }
+
+    .stat-val {
+        font-size: 0.78rem;
+    }
+
+    .stat-lab {
+        font-size: 0.4rem;
+    }
+
+    .tooltip-more-wrap {
+        margin-top: 0.38rem;
+        padding-top: 0.38rem;
+    }
+
+    .modal--team-member .tmm-panel {
+        max-height: min(88dvh, 620px);
+    }
+
+    .modal-layout {
+        max-height: min(86dvh, 640px);
+        height: min(86dvh, 640px);
+    }
+
+    .modal-gallery {
+        max-height: min(72vh, 640px);
+    }
+
+    .projects-modal-panel {
+        max-height: min(90dvh, 640px);
+    }
+}
+
+@keyframes about-geo-breathe-compact {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+@keyframes about-geo-pulse-compact {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @media (min-width: 1000px) and (max-height: 700px) {
+        .about-panel.is-visible .about-geo__layer--ring,
+        .about-panel.is-visible .about-geo__layer--core {
+            animation-name: about-geo-fade-in;
+        }
+    }
+}
