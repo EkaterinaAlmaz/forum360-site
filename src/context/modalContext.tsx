@@ -14,6 +14,7 @@ export type ModalState =
   | { type: "none" }
   | { type: "case"; caseId: CaseId; reopenProjects?: boolean }
   | { type: "projects" }
+  | { type: "letter"; letterId: string }
   | { type: "team"; memberId: MemberId };
 
 type ModalContextValue = {
@@ -24,6 +25,8 @@ type ModalContextValue = {
   closeProjects: () => void;
   openTeamMember: (memberId: MemberId) => void;
   closeTeamMember: () => void;
+  openLetter: (letterId: string) => void;
+  closeLetter: () => void;
   isCaseOpen: boolean;
   isProjectsOpen: boolean;
   isTeamOpen: boolean;
@@ -76,6 +79,14 @@ export function ModalProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const openLetter = useCallback((letterId: string) => {
+    setState({ type: "letter", letterId });
+  }, []);
+
+  const closeLetter = useCallback(() => {
+    setState((prev) => prev.type === "letter" ? { type: "none" } : prev);
+  }, []);
+
   const value = useMemo(
     () => ({
       state,
@@ -85,6 +96,8 @@ export function ModalProvider({ children }: { children: ReactNode }) {
       closeProjects,
       openTeamMember,
       closeTeamMember,
+      openLetter,
+      closeLetter,
       isCaseOpen,
       isProjectsOpen,
       isTeamOpen,
@@ -97,6 +110,8 @@ export function ModalProvider({ children }: { children: ReactNode }) {
       closeProjects,
       openTeamMember,
       closeTeamMember,
+      openLetter,
+      closeLetter,
       isCaseOpen,
       isProjectsOpen,
       isTeamOpen,

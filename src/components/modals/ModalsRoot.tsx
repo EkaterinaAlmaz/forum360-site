@@ -14,12 +14,17 @@ const TeamMemberModal = lazy(() =>
   })),
 );
 
+const LetterModal = lazy(() =>
+  import("@/components/letters/LetterModal").then((m) => ({ default: m.LetterModal })),
+);
+
 export function ModalsRoot() {
   return (
     <Suspense fallback={null}>
       <CaseModal />
       <ProjectsModal />
       <TeamMemberModal />
+      <LetterModal />
     </Suspense>
   );
 }

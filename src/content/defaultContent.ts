@@ -1,6 +1,7 @@
 import { CASE_PHOTOS } from "@/data/casePhotos";
 import { CASE_ORDER, cases } from "@/data/cases";
 import { MEMBER_ORDER, members } from "@/data/members";
+import { letters } from "@/data/letters";
 import type { CaseId, CasePhoto } from "@/types/case";
 import type { SiteContent } from "@/types/content";
 
@@ -87,6 +88,14 @@ export const defaultContent: SiteContent = {
       acc[caseId] = buildStaticPhotos(caseId);
       return acc;
     }, {}),
+  },
+  letters: {
+    sectionNumber: "04",
+    title: "Нас благодарят",
+    hint: "Нажмите на письмо, чтобы рассмотреть его целиком.",
+    previous: "Предыдущие письма",
+    next: "Следующие письма",
+    items: letters,
   },
   footer: {
     brand: "ФОРУМ 360",

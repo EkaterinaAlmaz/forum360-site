@@ -100,9 +100,9 @@ test("case modal opens with loaded photo, detail toggle and escape close", async
 }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/#cases");
-  await page.locator('[data-case="seminars4"]').click();
+  await page.locator('[data-case="mordovia"]').click();
   await expect(page.locator(".modal.is-open")).toBeVisible();
-  await expect(page.locator("#modalTitle")).toContainText("Семинаров");
+  await expect(page.locator("#modalTitle")).toContainText("Смена 2.0");
 
   const image = page.locator(".modal-gallery-img");
   await expect(image).toBeVisible();
@@ -123,7 +123,7 @@ test("case modal opens with loaded photo, detail toggle and escape close", async
   await expect(page.locator(".modal.is-open")).toHaveCount(0);
 });
 
-test("molodoy case follows updated gallery order", async ({
+test("molodoy gallery excludes the thank-you letter", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
@@ -132,7 +132,7 @@ test("molodoy case follows updated gallery order", async ({
   await expect(page.locator(".modal.is-open")).toBeVisible();
 
   await page.locator(".modal-nav--next").click();
-  await expect(page.locator(".modal-gallery-toolbar")).toContainText("2 / 28");
+  await expect(page.locator(".modal-gallery-toolbar")).toContainText("2 / 27");
 
   const image = page.locator(".modal-gallery-img");
   await expect
@@ -146,6 +146,7 @@ test("molodoy case follows updated gallery order", async ({
             srcHasOriginal: src.includes("Письмо.webp"),
             srcHasGenerated: src.includes("letter.webp"),
             srcHasSecondPhoto: src.includes("/2.webp"),
+            srcHasThirdPhoto: src.includes("/3.webp"),
             width: el.naturalWidth,
             height: el.naturalHeight,
           };
@@ -156,7 +157,8 @@ test("molodoy case follows updated gallery order", async ({
       complete: true,
       srcHasOriginal: false,
       srcHasGenerated: false,
-      srcHasSecondPhoto: true,
+      srcHasSecondPhoto: false,
+      srcHasThirdPhoto: true,
       width: expect.any(Number),
       height: expect.any(Number),
     });
@@ -165,13 +167,94 @@ test("molodoy case follows updated gallery order", async ({
 test("projects modal shows all cases", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/#cases");
+  await expect(page.locator("#cases .cases-row--data")).toHaveCount(4);
+  expect(
+    await page.locator("#cases .cases-row--data").evaluateAll((rows) =>
+      rows.map((row) => row.getAttribute("data-case")),
+    ),
+  ).toEqual(["mordovia", "lipetsk", "tourism", "molodoy"]);
   await page.locator("#casesAllBtn").click();
   await expect(page.locator(".modal--projects.is-open")).toBeVisible();
   await expect(page.locator("#projectsModalTitle")).toHaveText("Все проекты");
   await expect(
     page.locator(".modal--projects .cases-row--data"),
-  ).toHaveCount(4);
+  ).toHaveCount(10);
+
+  for (const id of ["seminars4", "seminars2"]) {
+    await page.locator(`.modal--projects [data-case="${id}"]`).click();
+    await expect(page.locator("#modalTitle")).toContainText("Семинаров");
+    await page.keyboard.press("Escape");
+    await expect(page.locator(".modal--projects.is-open")).toBeVisible();
+    await expect(page.locator(".modal--projects .cases-row--data")).toHaveCount(10);
+  }
 });
+
+for (const viewport of [
+  { width: 1280, height: 800 },
+  { width: 390, height: 844 },
+]) {
+  test(`six new case galleries at ${viewport.width}px`, async ({ page }, testInfo) => {
+    test.setTimeout(120000);
+    await page.setViewportSize(viewport);
+    await page.goto("/#cases");
+    await page.locator("#casesAllBtn").click();
+
+    const projects = [
+      { id: "mordovia", count: 12 },
+      { id: "lipetsk", count: 9 },
+      { id: "rso", count: 6 },
+      { id: "yavdele", count: 9 },
+      { id: "dobro", count: 5 },
+      { id: "surgut", count: 7 },
+    ];
+
+    for (const project of projects) {
+      await page.locator(`.modal--projects [data-case="${project.id}"]`).click();
+      const image = page.locator(".modal-gallery-img");
+      const expectLoaded = async () => {
+        await expect(image).toBeVisible();
+        await expect.poll(() => image.evaluate((element) => {
+          const img = element as HTMLImageElement;
+          return img.complete && img.naturalWidth > 0;
+        })).toBe(true);
+      };
+      await expectLoaded();
+      await expect(page.locator(".modal-gallery-toolbar")).toContainText(`1 / ${project.count}`);
+      await page.locator(".modal-nav--prev").click();
+      await expect(page.locator(".modal-gallery-toolbar")).toContainText(`${project.count} / ${project.count}`);
+      await expectLoaded();
+
+      // Validate every supplied photo, including files between the first and last slide.
+      const current = new URL(await image.getAttribute("src") ?? "", page.url());
+      const extension = project.id === "surgut" ? "jpg" : "webp";
+      for (let number = 1; number <= project.count; number++) {
+        const asset = new URL(current);
+        asset.pathname = asset.pathname.replace(/\/\d+\.(webp|jpg)$/, `/${number}.${extension}`);
+        const response = await page.request.get(asset.toString());
+        expect(response.ok()).toBe(true);
+        expect(response.headers()["content-type"]).toContain(`image/${extension === "jpg" ? "jpeg" : extension}`);
+      }
+
+      await page.locator(".modal-detail-btn").filter({ hasText: "Подробнее о проекте" }).click();
+      await expect(page.locator(".modal-aside")).toHaveClass(/is-detail-open/);
+      await expect(page.locator(".modal-body")).not.toBeEmpty();
+      await expect.poll(() => page.locator(".modal-aside-actions").evaluate((actions) => {
+        const rect = actions.getBoundingClientRect();
+        const aside = actions.closest(".modal-aside")!;
+        return { insideViewport: rect.top >= 0 && rect.bottom <= window.innerHeight + 1,
+          asideScrollTop: aside.scrollTop };
+      })).toEqual({ insideViewport: true, asideScrollTop: 0 });
+      await expect(page.locator(".modal-letter")).toHaveCount(0);
+      await expect(page.locator(".modal-aside-actions a")).toHaveCount(1);
+      expect(await page.locator(".modal-panel").evaluate((panel) => panel.scrollWidth > panel.clientWidth + 1)).toBe(false);
+      if (project.id === "mordovia" || project.id === "surgut") {
+        await page.screenshot({ path: testInfo.outputPath(`${project.id}-${viewport.width}.png`) });
+      }
+      await page.keyboard.press("Escape");
+      await expect(page.locator(".modal--projects.is-open")).toBeVisible();
+    }
+  });
+}
 
 test("hero logo fits viewport at 320px", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 });

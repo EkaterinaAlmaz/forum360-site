@@ -1,17 +1,25 @@
 import type { Case, CaseId } from "@/types/case";
+import { newCases } from "@/data/newCases";
 
 function paragraphs(...parts: string[]): string {
   return parts.map((text) => `<p>${text}</p>`).join("");
 }
 
 export const CASE_ORDER: CaseId[] = [
-  "seminars4",
-  "seminars2",
+  "mordovia",
+  "lipetsk",
   "tourism",
   "molodoy",
+  "rso",
+  "yavdele",
+  "dobro",
+  "surgut",
+  "seminars4",
+  "seminars2",
 ];
 
 export const cases: Record<CaseId, Case> = {
+  ...newCases,
   seminars4: {
     title: "Комплекс услуг в рамках проведения четырёх Семинаров",
     meta: "ФГБНУ «Институт изучения детства, семьи и воспитания» · Республика Калмыкия, Республика Дагестан, Липецкая и Брянская области",

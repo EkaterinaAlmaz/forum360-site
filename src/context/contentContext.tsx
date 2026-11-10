@@ -58,6 +58,7 @@ export function mergeContent(input: unknown): SiteContent {
       },
       caseOrder: next.cases?.caseOrder ?? defaultContent.cases.caseOrder,
     },
+    letters: { ...defaultContent.letters, ...next.letters },
     footer: { ...defaultContent.footer, ...next.footer },
   });
 }

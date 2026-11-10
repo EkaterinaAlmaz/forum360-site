@@ -5,6 +5,7 @@ import { CasesSection } from "@/components/sections/CasesSection";
 import { FooterSection } from "@/components/sections/FooterSection";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { TeamSection } from "@/components/sections/TeamSection";
+import { LettersSection } from "@/components/sections/LettersSection";
 import { ContentProvider } from "@/context/contentContext";
 import { ModalProvider } from "@/context/modalContext";
 
@@ -17,6 +18,7 @@ export default function App() {
           <AboutSection />
           <TeamSection />
           <CasesSection />
+          <LettersSection />
         </AppLayout>
       </ModalProvider>
     </ContentProvider>

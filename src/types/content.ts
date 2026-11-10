@@ -1,5 +1,6 @@
 import type { Case, CaseId, CasePhoto } from "@/types/case";
 import type { Member, MemberId } from "@/types/member";
+import type { ThankYouLetter } from "@/types/letter";
 
 export type HeroContent = {
   tagline: string;
@@ -81,5 +82,13 @@ export type SiteContent = {
   about: AboutContent;
   team: TeamContent;
   cases: CasesContent;
+  letters: {
+    sectionNumber: string;
+    title: string;
+    hint: string;
+    previous: string;
+    next: string;
+    items: ThankYouLetter[];
+  };
   footer: FooterContent;
 };
